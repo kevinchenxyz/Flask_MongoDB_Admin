@@ -1,0 +1,20 @@
+
+<div class="fixed">
+    <nav class="top-bar">
+        <ul class="title-area">
+            {% block title %}
+            <li class="name"><h1><a href="">Flas_mongodb_Admin</a></h1></li>
+            {% endblock %}
+            <li class="toggle-topbar menu-icon"><a href="#"><span>選單</span></a></li>
+        </ul>
+
+        <section class="top-bar-section">
+            <ul class="right">
+                {% block menu %} 
+                    <li><a class="button" href="{{ url_for('users.logout') }}">登出</a></li>
+                {% endblock %}
+            </ul>
+        </section>
+    </nav>
+</div>
+

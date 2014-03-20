@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+
+{% include 'bar/adminbar.html' %}
+<div class='AdminList'>
+    <div class='row'>
+        <div class="small-12 large-12 columns">
+            <div id='css_table'>
+                <div class='css_tr'>
+                  <div class='css_td'>帳號</div>
+                  <div class='css_td'>姓名</div>
+                  <div class='css_td'>E-Mail</div>
+                  <div class='css_td'>功能</div>
+                </div>
+    {% for u in users %}
+                <div class="css_tr">
+                    <div class='css_td'>{{ u.account }}</div>
+                    <div class='css_td'>{{ u.name }}</div>
+                    <div class='css_td'>{{ u.email }}</div>
+                    <div class='css_td'>
+                        <span><a class ='small button' href="#" data-reveal-id="{{ u.account }}" >修改</a></span>
+                        <span><a class ='small button' href="#" data-reveal-id="{{ u.id }}" >刪除</a></span>
+                    </div>
+                </div>
+    {% endfor %}            
+            </div>
+        </div>
+    </div>
+    
+
+    <div class='row'>
+        <div id="adduser_reveal" class="reveal-modal" style="display: none" data-reveal >
+            <form action='{{ url_for('admin.list', action="add")}}' method='POST'>
+                <fieldset>
+                    <legend>新增會員</legend>
+                    {{ form.hidden_tag() }}
+                    <div class='large-3 columns'>
+                        {{ form.account.label }}
+                        {{ form.account(placeholder="新帳號") }}
+                    </div>
+                    <div class='large-3 columns'>
+                        {{ form.pwd.label }}
+                        {{ form.pwd(placeholder="密碼") }}
+                    </div>
+                    <div class='large-3 columns'>
+                        {{ form.name.label }}
+                        {{ form.name(placeholder="輸入暱稱") }}
+                    </div>
+                    <div class='large-3 columns'>
+                        {{ form.email.label }}
+                        {{ form.email(placeholder="輸入e-mail") }}
+                    </div>
+                    <div class='large-2 columns'>
+                        <input class='button radius' type='submit' value='確定新增'>
+                    </div>
+                        {% for e in errors %}
+                            <span style='font-size:14px;color:red;'>{{ errors[e]}}</span>
+                        {% endfor %}
+
+                </fieldset>
+            </form>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+
+    {% for u in users %}
+    <div id="{{ u.account }}" class="reveal-modal">
+        <form action='{{ url_for("admin.list", action="modify") }}' method='POST'>
+            <fieldset>
+                <legend>編輯會員</legend>
+                <div class='row'>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__account.label }}
+                        {{ mform.set__account(value=u.account,placeholder="large-4 columns") }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__pwd.label }}
+                        {{ mform.set__pwd }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__name.label }}
+                        {{ mform.set__name(value=u.name) }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__email.label }}
+                        {{ mform.set__email(value=u.email) }}
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class = 'large-12 columns'>
+                        <input type='hidden' name='objid' value='{{ u.id }}'>
+                        <input class=' button'type="submit" value='確認修改'>
+                    </div>
+                </div>
+                <a class="close-reveal-modal">&#215;</a>
+            </fieldset>
+        </form>
+    </div>
+
+    <div id="{{ u.id }}" class="reveal-modal">
+        <ul class="pricing-table delete-list">
+            <li class='title' > 確認帳號資訊</li>
+            <li class="price account">帳號：{{ u.account }}</li>
+            <li class="bullet-item name">暱稱：{{ u.name}}</li>
+            <li class="bullet-item">E-mail:{{ u.email}}</li>
+            <li class='bullet-item desc' style='background-color:red'>帳號刪除後將無法回覆資料</li>
+        </ul>
+
+        <form action='{{ url_for("admin.list", action="delete") }}' method='POST'>
+               
+            <input type='hidden' name='objid' value='{{ u.id }}'>
+            <input class='button left' type='submit' value='確認刪除'>
+            <a class ='button' href="." style='height:51px;width:124px;padding-top:17.5px;padding-bottom:5px;'>取消</a> 
+        </form>
+        
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

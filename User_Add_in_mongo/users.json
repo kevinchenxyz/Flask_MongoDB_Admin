@@ -1,0 +1,16 @@
+[
+    {
+        "mysql_u_id": "5",
+        "name": "管理者",
+        "account": "admin",
+        "pwd": "21232f297a57a5a743894a0e4a801fc3",
+        "email": "admin@demo.com"
+    },
+    {
+        "mysql_u_id": "7",
+        "name": "會員",
+        "account": "user2",
+        "pwd": "21232f297a57a5a743894a0e4a801fc3",
+        "email": "user@demo.com"
+    }
+]

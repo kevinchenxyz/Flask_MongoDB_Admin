@@ -1,0 +1,51 @@
+/* line 1, ../sass/custom.scss */
+#main p {
+  color: #00ff00;
+  width: 97%;
+}
+/* line 4, ../sass/custom.scss */
+#main p .redbox {
+  background-color: #ff0000;
+  color: #000000;
+}
+
+/* line 10, ../sass/custom.scss */
+a {
+  font-weight: bold;
+  text-decoration: none;
+}
+/* line 13, ../sass/custom.scss */
+a:hover {
+  text-decoration: underline;
+}
+/* line 14, ../sass/custom.scss */
+body.firefox a {
+  font-weight: normal;
+}
+
+
+#css_table {
+  display: table;
+  border: solid 1px #dddddd;
+  width: 100%;
+}
+
+/* line 21, ../scss/_custom_layout.scss */
+.css_tr {
+  display: table-row;
+}
+
+/* line 25, ../scss/_custom_layout.scss */
+.css_td {
+  display: table-cell;
+  padding: 0.5em;
+}
+
+/* line 30, ../scss/_custom_layout.scss */
+.css_tr:nth-child(odd) {
+  background-color: #CCFFFF;
+}
+.css_tr:nth-child(even) {
+  background-color: #99CCCC;
+}
+

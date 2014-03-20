@@ -1,0 +1,188 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+
+{% include 'bar/adminbar.html' %}
+
+
+
+<div class='row'>
+    <div id="adduser_reveal" class="reveal-modal" style="display: none" data-reveal >
+        <form action='{{ url_for('admin.list', action="add")}}' method='POST'>
+            <fieldset>
+                <legend>新增會員</legend>
+                {{ form.hidden_tag() }}
+                <div class='large-3 columns'>
+                    {{ form.account.label }}
+                    {{ form.account(placeholder="新帳號") }}
+                </div>
+                <div class='large-3 columns'>
+                    {{ form.pwd.label }}
+                    {{ form.pwd(placeholder="密碼") }}
+                </div>
+                <div class='large-3 columns'>
+                    {{ form.name.label }}
+                    {{ form.name(placeholder="輸入暱稱") }}
+                </div>
+                <div class='large-3 columns'>
+                    {{ form.email.label }}
+                    {{ form.email(placeholder="輸入e-mail") }}
+                </div>
+                <div class ='row '>
+                    <div class='large-2 columns'>
+                        {{ form.class_info_education.label }}
+                        {{ form.class_info_education(placeholder="學歷") }}
+                    </div>
+                    <div class='large-2 columns'>
+                        {{ form.class_info_school(placeholder="學校") }}
+                    </div>
+                    <div class='large-2 columns'>
+                        {{ form.class_info_year(placeholder="學年") }}
+                    </div>                
+                    <div class='large-2 columns'>
+                        {{ form.class_info_semester(placeholder="學期") }}
+                    </div>   
+                    <div class='large-2 columns'>
+                        {{ form.class_info_level(placeholder="年級") }}
+                    </div>   
+                    <div class='large-2 columns'>
+                        {{ form.class_info_class(placeholder="班級") }}
+                    </div> 
+                </div>
+                <div class='large-2 columns'>
+                    <input class='button radius' type='submit' value='確定新增'>
+                </div>
+                    {% for e in errors %}
+                        <span style='font-size:14px;color:red;'>{{ errors[e]}}</span>
+                    {% endfor %}
+
+            </fieldset>
+        </form>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+</div>
+
+<div class='AdminList'>
+    <div class='row'>
+        <div class="small-12 large-12 columns">
+        
+            <table>
+                <thead>
+                    <tr>
+                      <th >帳號</th>
+                      <th >姓名</th>
+                      <th >E-Mail</th>
+                      <th >學歷</th>
+                      <th >學校</th>
+                      <th >學年</th>
+                      <th >學期</th>
+                      <th >年級</th>
+                      <th >班級</th>
+                      <th >功能</th>
+                    </tr>
+                </thead>
+                <tbody>
+    {% for u in users %}
+                    <tr class="user_list">
+                        <td>{{ u.account }}</td>
+                        <td>{{ u.name }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>{{ u.class_info.0.0 }}</td>
+                        <td>{{ u.class_info.0.1 }}</td>
+                        <td>{{ u.class_info.0.2 }}</td>
+                        <td>{{ u.class_info.0.3 }}</td>
+                        <td>{{ u.class_info.0.4 }}</td>
+                        <td>{{ u.class_info.0.5 }}</td>
+                        <td>
+                            <span><a class ='button' href="#" data-reveal-id="{{ u.account }}" >修改</a></span>
+                            <span><a class ='button' href="#" data-reveal-id="{{ u.id }}" >刪除</a></span>
+                        </td>
+                    </tr>
+    {% endfor %}            
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% for u in users %}
+    <div id="{{ u.account }}" class="reveal-modal">
+        <form action='{{ url_for("admin.list", action="modify") }}' method='POST'>
+            <fieldset>
+                <legend>編輯會員</legend>
+                <div class='row'>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__account.label }}
+                        {{ mform.set__account(value=u.account,placeholder="large-4 columns") }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__pwd.label }}
+                        {{ mform.set__pwd }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__name.label }}
+                        {{ mform.set__name(value=u.name) }}
+                    </div>
+                    <div class = 'large-3 columns'>
+                        {{ mform.set__email.label }}
+                        {{ mform.set__email(value=u.email) }}
+                    </div>
+                </div>
+                <div class= 'row'>
+                    <div class = 'large-2 columns'>
+                        {{ mform.set__education.label }}
+                        {{ mform.set__education(value=u.class_info.0.0) }}
+                    </div>
+                    <div class = 'large-2 columns'>
+                        {{ mform.set__school.label }}
+                        {{ mform.set__school(value=u.class_info.0.1) }}
+                    </div>
+                    <div class = 'large-2 columns'>  
+                        {{ mform.set__year.label }}
+                        {{ mform.set__year(value=u.class_info.0.2) }}
+                    </div>
+                    <div class = 'large-2 columns'>  
+                        {{ mform.set__semester.label }}
+                        {{ mform.set__semester(value=u.class_info.0.3) }}
+                    </div>
+                    <div class = 'large-2 columns'>
+                        {{ mform.set__level.label }}
+                        {{ mform.set__level(value=u.class_info.0.4) }}
+                    </div>
+                    <div class = 'large-2 columns'>
+                        {{ mform.set__class.label }}
+                        {{ mform.set__class(value=u.class_info.0.5) }}
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class = 'large-12 columns'>
+                        <input type='hidden' name='objid' value='{{ u.id }}'>
+                        <input class=' button'type="submit" value='確認修改'>
+                    </div>
+                </div>
+                <a class="close-reveal-modal">&#215;</a>
+            </fieldset>
+        </form>
+    </div>
+    <div id="{{ u.id }}" class="reveal-modal">
+        <ul class="pricing-table delete-list">
+            <li class='title' > 確認帳號資訊</li>
+            <li class="price account">帳號：{{ u.account }}</li>
+            <li class="bullet-item name">暱稱：{{ u.name}}</li>
+            <li class="bullet-item">E-mail:{{ u.email}}</li>
+<!--
+            <li class='bullet-item desc' style='background-color:red'>帳號刪除後將無法回覆資料</li>
+-->
+        </ul>
+
+        <form action='{{ url_for("admin.list", action="delete") }}' method='POST'>
+               
+            <input type='hidden' name='objid' value='{{ u.id }}'>
+            <input class='button left' type='submit' value='確認刪除'>
+            <a class ='button' href="." style='height:51px;width:124px;padding-top:17.5px;padding-bottom:5px;'>取消</a> 
+        </form>
+        
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

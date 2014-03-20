@@ -1,0 +1,9 @@
+{% extends "bar/basebar.html" %}
+{% block menu %}
+     <li class="has-form">
+        <a href="#" data-reveal-id="adduser_reveal" class="button">新增會員</a>
+    </li>
+
+                
+    <li><a class="button" href="{{ url_for('users.logout') }}">登出</a></li>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "bar/basebar.html" %}
+
+{% block title %}
+    <li class="name"><h1><a href="#">{{ p.name }}</a></h1></li>
+<!--<li>考試時間</li>
+    <li>倒數計時</li>
+    <li>考題選擇</li> -->
+{% endblock %}
+
+{% block menu %}
+    <li><a class="button" data-reveal-id="quitModal" href="#">離開</a></li>
+{% endblock %}

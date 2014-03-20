@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+{% block body %}
+{% include 'bar/basebar.html' %}
+
+<!-- 新增學生資料 -->
+<div class='row'>
+    <div class='row'>
+        <form action='{{ url_for('admin.list', action="add")}}' method='POST'>
+            <fieldset>
+                <legend>學生基本資料</legend>
+                {{ form.hidden_tag() }}
+                <div class='large-3 columns'>
+                    {{ form.account(placeholder="輸入帳號") }}
+                </div>
+                <div class='large-3 columns'>
+                    {{ form.pwd(placeholder="輸入密碼") }}
+                </div>
+                <div class='large-3 columns'>
+                    {{ form.name(placeholder="輸入暱稱") }}
+                </div>
+                 <div class='large-3 columns'>
+                    {{ form.name(placeholder="email") }}
+                </div>
+
+               <div class='large-3 columns'>
+                    <select>
+                        <option value=" 高明大安">高明大安</option>
+                        <option value="高明小安">高明小安</option>
+                        <option value="宜蘭國中">宜蘭國中</option>
+                        <option value="宜蘭國小">宜蘭國小</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <select>
+                        <option value=" 國小">國小</option>
+                        <option value="國中">國中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <select>
+                        <option value="上學期">上學期</option>
+                        <option value="下學期">下學期</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <select>
+                        <option value="忠">忠</option>
+                        <option value="孝">孝</option>
+                        <option value="仁">仁</option>
+                        <option value="愛">愛</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <select>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <select id="category" name="category">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class='large-3 columns'>
+                    <input type='submit' class="button radius" value='新增'>
+                    <input type='submit' class="button radius" value='清除'>
+                </div>
+                    {% for e in errors %}
+                        <span style='font-size:14px;color:red;'>{{ errors[e]}}</span>
+                    {% endfor%}
+            </fieldset>
+        </form>
+    </div>
+ </div>
+ 
+<div class='AdminList'>
+    {% for u in users %}
+<!-- 編輯學生資料 -->
+<div id="{{ u.account }}" class="reveal-modal" data-reveal >
+    <form action='{{ url_for("admin.list", action="modify") }}' method='POST'>
+        <fieldset>
+            <legend>編輯會員</legend>
+            {{ mform.set__account.label }}
+            {{ mform.set__account(value=u.account) }}
+            {{ mform.set__pwd.label }}
+            {{ mform.set__pwd(value=u.pwd) }}
+            {{ mform.set__name.label }}
+            {{ mform.set__name(value=u.name) }}
+            <input type='hidden' name='objid' value='{{ u.id }}'>
+            <input type="submit" value='修改'>
+            <a class="close-reveal-modal">&#215;</a>
+        </fieldset>
+    </form>
+</div>
+<!-- 刪除學生資料 -->
+<div id="{{ u.id }}" class="reveal-modal" data-reveal >
+        <ul class="delete-list">
+            <li class="account">帳號：{{ u.account }}</li>
+            <li class="pwd">密碼：{{ u.pwd }}</li>
+            <li class="name">暱稱：{{ u.name}}</li>
+            <li class='desc'> 請問您是否確定要刪除此帳號？</li>
+        </ul>
+        <form action='{{ url_for("admin.list", action="delete") }}' method='POST'>
+        <input type='hidden' name='objid' value='{{ u.id }}'>
+        <input type='submit' value='刪除'>
+    </form>
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+{% endfor %}
+</div>
+
+
+<!-- 排列學生資料 -->
+    <div class='row'>
+        <div class='large-9 columns'>
+            .
+        </div>
+                <div class='large-3 columns'>
+                    <select>
+                        <option value="學校"> 以學校名稱排列</option>
+                        <option value="班級">以班級名稱排列</option>
+                    </select>
+                </div>
+</div>
+
+<dl class="accordion" data-accordion>
+  <dd>
+    <a href="#panel1">高明大安</a>
+    <div id="panel1" class="content">
+    <div class="large-8 large-centered columns">
+    <table>
+  <thead>
+    <tr>
+        <th width="100">帳號</th>
+        <th width="100">姓名</th>
+        <th width="150">學年</th>
+        <th width="100">學校</th>
+        <th width="100">班級</th>
+        <th width="100">年級</th>
+        <th width="200">email</th>
+        <th width="120">刪除</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr>
+{% for u in users %}
+    <td><a href="#" data-reveal-id="{{ u.account }}">{{ u.account }}</a></td>
+    <td>{{ u.name }}</td>
+    <td>{{ u.class_info[0][2] }},{{ u.class_info[0][3] }}</td>
+    <td>{{ u.class_info[0][1] }}</td>
+    <td>{{ u.class_info[0][4] }}</td>
+    <td>{{ u.class_info[0][5] }}</td>
+    <td>{{ u.email }}</td>
+        <td><a href="#" class="button" style="background-color:red" data-reveal-id="{{ u.id }}">刪除</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+  </dd>
+
+  
+</dl>
+{% endblock %}
